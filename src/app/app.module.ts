@@ -1,3 +1,4 @@
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -23,6 +24,8 @@ import { ContactComponent } from './contact/contact.component';
   ],
   imports: [
     BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
     NgbModule.forRoot(),
     AppRoutingModule
   ],
