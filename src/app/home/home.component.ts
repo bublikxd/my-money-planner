@@ -7,6 +7,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
+  calculateForMonth: number = 6;
+  currentMoney: number = 500;
+  monthlyNetSalary: number = 1500;
+  monthlyAppartmentPrice: number = 400;
+
   constructor() { }
 
   ngOnInit() {

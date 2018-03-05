@@ -1,3 +1,58 @@
-<p>
-  home works!
-</p>
+<div class="container-fluid">
+    <h1>Calculation</h1>
+    <div class="row">
+        <div class="col">
+            <h3>Your settings</h3>
+            <form>
+                <div class="form-group">
+                    <label for="calculateForMonth">For how many months should the calculation be made?</label>
+                    <input type="number"
+                           class="form-control"
+                           id="calculateForMonth"
+                           placeholder="6"
+                           step="1"
+                           min="1"
+                           name="calculateForMonth"
+                           [(ngModel)]="calculateForMonth">
+                </div>
+                <div class="form-group">
+                    <label for="currentMoney">Give your current money balance</label>
+                    <input type="number"
+                           class="form-control"
+                           id="currentMoney"
+                           placeholder="500"
+                           name="currentMoney"
+                           [(ngModel)]="currentMoney">
+                </div>
+                <div class="form-group">
+                    <label for="monthlyNetSalary">Enter your monthly net salary</label>
+                    <input type="number"
+                           class="form-control"
+                           id="monthlyNetSalary"
+                           placeholder="1500"
+                           name="monthlyNetSalary"
+                           [(ngModel)]="monthlyNetSalary">
+                </div>
+                <div class="form-group">
+                    <label for="monthlyAppartmentPrice">Enter your monthly appartment price</label>
+                    <input type="number"
+                           class="form-control"
+                           id="monthlyAppartmentPrice"
+                           placeholder="400"
+                           name="monthlyAppartmentPrice"
+                           [(ngModel)]="monthlyAppartmentPrice">
+                </div>
+                <div class="form-group">
+                    <button type="button"
+                            class="btn btn-success">Calculate</button>
+                    <button type="button"
+                            class="btn btn-secondary">Clear inputs</button>
+                </div>
+            </form>
+        </div>
+        <div class="col">
+            <h3>Result</h3>
+            <p>{{ ((calculateForMonth * monthlyNetSalary) - (calculateForMonth * monthlyAppartmentPrice)) + currentMoney | currency:'EUR':'€':'.2-2' }}</p>
+        </div>
+    </div>
+</div>
