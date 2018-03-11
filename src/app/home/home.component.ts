@@ -10,7 +10,11 @@ export class HomeComponent implements OnInit {
 
   calculationForm: FormGroup;
 
-  result: any;
+  result: any = null;
+  revenueSum: number = 0;
+  outgoingsSum: number = 0;
+
+  calculationPrognose: number[] = [];
 
   constructor(private formBuilder: FormBuilder) { }
 
@@ -61,6 +65,33 @@ export class HomeComponent implements OnInit {
 
   calculateForm(formData: any) {
     this.result = formData;
+    const revenueArr: number[] = [];
+    formData.revenue.forEach(revenueItem => {
+      revenueArr.push(revenueItem.amount);
+    });
+    const outgoingsArr: number[] = [];
+    formData.outgoings.forEach(outgoingsItem => {
+      outgoingsArr.push(outgoingsItem.amount);
+    });
+    this.revenueSum = this.getSumOfArray(revenueArr);
+    this.outgoingsSum = this.getSumOfArray(outgoingsArr);
+    this.calculateLongResult();
+  }
+
+  getSumOfArray(valueArray: any[]): number {
+    return valueArray.reduce((a, b) => a + b, 0);
+  }
+
+  calculateLongResult() {
+    const bankBalance: number = this.result.currentMoney;
+    const months: number = this.result.calculationLong;
+    for (let i = 0; i < months; i++) {
+      if (i === 0) {
+        this.calculationPrognose[i] = (bankBalance + (this.revenueSum - this.outgoingsSum));
+      } else {
+        this.calculationPrognose[i] = (this.calculationPrognose[i - 1]) + (this.revenueSum - this.outgoingsSum);
+      }
+    }
   }
 
 }

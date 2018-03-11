@@ -132,10 +132,49 @@
             </form>
         </div>
         <div class="col">
-            <h3>Result</h3>
-            <pre>
-                {{ result | json }}
-            </pre>
+            <ng-container *ngIf="result">
+                <h3>Result</h3>
+                <dl class="row">
+                    <dt class="col-sm-3">Calculation for (in months):</dt>
+                    <dd class="col-sm-9">{{ result.calculationLong }}</dd>
+                    <dt class="col-sm-3">Your current bank balance:</dt>
+                    <dd class="col-sm-9">{{ result.currentMoney }} €</dd>
+                </dl>
+                <strong>Revenue</strong>
+                <dl class="row">
+                    <ng-container *ngFor="let revenueItem of result.revenue;">
+                        <dt class="col-sm-3">{{ revenueItem.name }}:</dt>
+                        <dd class="col-sm-9">{{ revenueItem.amount }} €</dd>
+                    </ng-container>
+                    <hr>
+                    <dt class="col-sm-3">Revenue (sum):</dt>
+                    <dd class="col-sm-9">{{ revenueSum }} €</dd>
+                </dl>
+                <strong>Outgoings</strong>
+                <dl class="row">
+                    <ng-container *ngFor="let outgoingsItem of result.outgoings;">
+                        <dt class="col-sm-3">{{ outgoingsItem.name }}:</dt>
+                        <dd class="col-sm-9">{{ outgoingsItem.amount }} €</dd>
+                    </ng-container>
+                    <hr>
+                    <dt class="col-sm-3">Outgoings (sum):</dt>
+                    <dd class="col-sm-9">{{ outgoingsSum }} €</dd>
+                </dl>
+                <hr>
+                <strong>End (sum)</strong>
+                <dl class="row">
+                    <dt class="col-sm-3">Your new bank balance:</dt>
+                    <dd class="col-sm-9">{{ (result.currentMoney + (revenueSum - outgoingsSum)) | number:'.2-2' }} €</dd>
+                </dl>
+                <hr>
+                <strong>Prognose for {{ result.calculationLong }} months</strong>
+                <dl class="row">
+                    <ng-container *ngFor="let resultItem of calculationPrognose; let i = index;">
+                        <dt class="col-sm-3">Month {{ i + 1 }}</dt>
+                        <dd class="col-sm-9">{{ resultItem | number:'.2-2' }} €</dd>
+                    </ng-container>
+                </dl>
+            </ng-container>
         </div>
     </div>
 </div>
