@@ -3,47 +3,128 @@
     <div class="row">
         <div class="col">
             <h3>Your settings</h3>
-            <form>
+            <form [formGroup]="calculationForm" (ngSubmit)="calculateForm(calculationForm.value)">
                 <div class="form-group">
-                    <label for="calculateForMonth">For how many months should the calculation be made?</label>
+                    <label for="calculationLong">For how many months should the calculation be made?</label>
                     <input type="number"
                            class="form-control"
-                           id="calculateForMonth"
+                           id="calculationLong"
                            placeholder="6"
                            step="1"
                            min="1"
-                           name="calculateForMonth"
-                           [(ngModel)]="calculateForMonth">
+                           name="calculationLong"
+                           formControlName="calculationLong">
                 </div>
                 <div class="form-group">
-                    <label for="currentMoney">Give your current money balance</label>
+                    <label for="currentMoney">Give your current bank balance</label>
                     <input type="number"
                            class="form-control"
                            id="currentMoney"
-                           placeholder="500"
-                           name="currentMoney"
-                           [(ngModel)]="currentMoney">
-                </div>
-                <div class="form-group">
-                    <label for="monthlyNetSalary">Enter your monthly net salary</label>
-                    <input type="number"
-                           class="form-control"
-                           id="monthlyNetSalary"
                            placeholder="1500"
-                           name="monthlyNetSalary"
-                           [(ngModel)]="monthlyNetSalary">
+                           name="currentMoney"
+                           formControlName="currentMoney">
+                </div>
+                <h3>Revenue</h3>
+                <div formArrayName="revenue">
+                    <div *ngFor="let revenueItem of calculationForm.get('revenue').controls; let i = index;">
+                        <div [formGroupName]="i">
+                            <strong>Revenue {{ i + 1 }}</strong>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label [for]="'revenueItemName' + i">Name</label>
+                                        <input type="string"
+                                               class="form-control"
+                                               [id]="'revenueItemName' + i"
+                                               placeholder="Please type name for revenue"
+                                               [name]="'revenueItemName' + i"
+                                               formControlName="name">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label [for]="'revenueItemAmount' + i">Amount</label>
+                                        <input type="number"
+                                               class="form-control"
+                                               [id]="'revenueItemAmount' + i"
+                                               placeholder="0"
+                                               [name]="'revenueItemAmount' + i"
+                                               formControlName="amount">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <button type="button"
+                                                class="btn btn-secondary"
+                                                (click)="deleteRevenueItem(i)">Remove</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="button"
+                                class="btn btn-primary"
+                                (click)="addNewRevenueItem()">Add new renevue</button>
+                    </div>
+                </div>
+                <hr>
+                <h3>Outgoings</h3>
+                <div formArrayName="outgoings">
+                    <div *ngFor="let outgoingsItem of calculationForm.get('outgoings').controls; let j = index;">
+                        <div [formGroupName]="j">
+                            <strong>Output {{ j + 1 }}</strong>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label [for]="'outgoingsItemName' + j">Name</label>
+                                        <input type="string"
+                                               class="form-control"
+                                               [id]="'outgoingsItemName' + j"
+                                               placeholder="Please type name for output"
+                                               [name]="'outgoingsItemName' + j"
+                                               formControlName="name">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <label [for]="'outgoingsItemAmount' + j">Amount</label>
+                                        <input type="number"
+                                               class="form-control"
+                                               [id]="'outgoingsItemAmount' + j"
+                                               placeholder="0"
+                                               [name]="'outgoingsItemAmount' + j"
+                                               formControlName="amount">
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-check">
+                                        <input type="checkbox"
+                                               class="form-check-input"
+                                               [id]="'outgoingsItemIsLimited' + j"
+                                               [name]="'outgoingsItemIsLimited' + j"
+                                               formControlName="isLimited">
+                                        <label [for]="'outgoingsItemIsLimited' + j">Is limited?</label>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <button type="button"
+                                                class="btn btn-secondary"
+                                                (click)="deleteOutgoingsItem(j)">Remove</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <button type="button"
+                                class="btn btn-primary"
+                                (click)="addNewOutgoingsItem()">Add new output</button>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label for="monthlyAppartmentPrice">Enter your monthly appartment price</label>
-                    <input type="number"
-                           class="form-control"
-                           id="monthlyAppartmentPrice"
-                           placeholder="400"
-                           name="monthlyAppartmentPrice"
-                           [(ngModel)]="monthlyAppartmentPrice">
-                </div>
-                <div class="form-group">
-                    <button type="button"
+                    <button type="submit"
                             class="btn btn-success">Calculate</button>
                     <button type="button"
                             class="btn btn-secondary">Clear inputs</button>
@@ -52,7 +133,9 @@
         </div>
         <div class="col">
             <h3>Result</h3>
-            <p>{{ ((calculateForMonth * monthlyNetSalary) - (calculateForMonth * monthlyAppartmentPrice)) + currentMoney | currency:'EUR':'€':'.2-2' }}</p>
+            <pre>
+                {{ result | json }}
+            </pre>
         </div>
     </div>
 </div>
