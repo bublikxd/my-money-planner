@@ -94,4 +94,8 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  resetFormData() {
+    this.calculationForm.reset();
+  }
+
 }
