@@ -24,8 +24,8 @@ export class HomeComponent implements OnInit {
 
   createForm() {
     this.calculationForm = this.formBuilder.group({
-      calculationLong: 0,
-      currentMoney: 0,
+      calculationLong: 1,
+      currentMoney: 1000,
       revenue: this.formBuilder.array([this.createRevenueItem()]),
       outgoings: this.formBuilder.array([this.createOutgoingsItem()])
     });
